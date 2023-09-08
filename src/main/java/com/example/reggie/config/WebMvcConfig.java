@@ -15,7 +15,7 @@ import java.util.List;
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     /**
      * 设置静态资源映射
-     * @param registry
+     * @param registry static resource handler registry
      */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {

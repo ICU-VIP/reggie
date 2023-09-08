@@ -16,7 +16,7 @@ public class  GlobalExceptionHandler {
 
     /**
      * 异常处理方法
-     * @return
+     * @return http message
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex){
