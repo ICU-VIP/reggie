@@ -9,11 +9,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
 import java.io.IOException;
 
-@WebFilter(filterName = "loginCheckFilter",urlPatterns = "/*")
+//@WebFilter(filterName = "loginCheckFilter",urlPatterns = "/*")
+@Component
 @Slf4j
 
 public class LoginCheckFilter implements Filter {
@@ -45,7 +48,8 @@ public class LoginCheckFilter implements Filter {
                 "/employee/login",
                 "/employee/logout",
                 "/backend/**",
-                "/front/**"
+                "/front/**",
+                "/common/**"
         };
 
         //2、判断本次请求是否需要处理

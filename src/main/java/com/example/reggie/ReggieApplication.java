@@ -7,7 +7,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 
 @SpringBootApplication
 @Slf4j
-@ServletComponentScan
+//@ServletComponentScan
 public class ReggieApplication {
 
     public static void main(String[] args) {

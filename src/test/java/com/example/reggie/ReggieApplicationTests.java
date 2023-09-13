@@ -8,6 +8,8 @@ class ReggieApplicationTests {
 
     @Test
     void contextLoads() {
+        String s = "ab.c.jpg";
+        System.out.println(s.substring(s.lastIndexOf(".")));
     }
 
 }

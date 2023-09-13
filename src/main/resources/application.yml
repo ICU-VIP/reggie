@@ -16,3 +16,10 @@ spring:
     redis:
       host: 127.0.0.1
       password: root3306
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+
+reggie:
+  path: D:\superWeek\img\
