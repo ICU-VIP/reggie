@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.reggie.mapper.SetmealMapper">
+    <select id="setmealDtoPage2" resultType="com.example.reggie.entity.SetmealDto">
+        SELECT setmeal.id, setmeal.category_id, setmeal.`name`, category.name AS categoryName, setmeal.price, setmeal.`status`, setmeal.`code`, setmeal.description, setmeal.image, setmeal.create_time, setmeal.create_user, setmeal.update_time, setmeal.update_user
+        FROM  setmeal
+        LEFT JOIN category
+        ON setmeal.category_id = category.id
+        <where>
+            <if test="name != null">
+                AND setmeal.`name` LIKE CONCAT('%',#{name},'%')
+            </if>
+        </where>
+        ORDER BY setmeal.update_time DESC
+
+
+    </select>
+
+
+    <select id="setmealDtoPage" resultType="com.example.reggie.entity.SetmealDto">
+        SELECT setmeal.id, setmeal.category_id, setmeal.`name`, category.name AS categoryName, setmeal.price, setmeal.`status`, setmeal.`code`, setmeal.description, setmeal.image, setmeal.create_time, setmeal.create_user, setmeal.update_time, setmeal.update_user
+        FROM  setmeal
+        LEFT JOIN category
+        ON setmeal.category_id = category.id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>

@@ -3,6 +3,8 @@ package com.example.reggie.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import lombok.Data;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -13,7 +15,8 @@ import java.time.LocalDateTime;
 @Data
 public class SetmealDish implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long  serialVersionUID = 1L;
 
     private Long id;
 
