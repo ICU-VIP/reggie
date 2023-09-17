@@ -20,7 +20,8 @@ class ReggieApplicationTests {
 
     @Test
     void contextLoads() {
-      setmealService.setmealDtoPage(1,10, null);
+        List<Integer> ids = List.of(1, 2, 3);
+        setmealService.removeByIds(ids);
     }
 
 }
