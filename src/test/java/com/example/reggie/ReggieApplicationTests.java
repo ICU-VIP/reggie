@@ -21,6 +21,7 @@ class ReggieApplicationTests {
     @Test
     void contextLoads() {
         List<Integer> ids = List.of(1, 2, 3);
+
         setmealService.removeByIds(ids);
     }
 

@@ -61,4 +61,25 @@ public class SetmealController {
         setmealService.removeWithDish(ids);
         return R.success("套餐数据删除成功");
     }
+
+    @GetMapping("/{id}")
+    public R<SetmealDto> getById(@PathVariable Long id) {
+        log.info("id:{}", id);
+        SetmealDto setmealDto = setmealService.getSetmealDtoById(id);
+        return R.success(setmealDto);
+    }
+
+    @PutMapping
+    public R<String> update(@RequestBody SetmealDto setmealDto) {
+        log.info("setmealDto:{}", setmealDto);
+        setmealService.updateSetmealDto(setmealDto);;
+        return R.success("套餐数据更新成功");
+    }
+
+    @PostMapping("/status/{code}")
+    public R<String> updateStatus(@PathVariable Integer code, @RequestParam List<Long> ids) {
+        log.info("code:{}", code);
+        setmealService.updateSetmealStatus(code, ids);;
+        return R.success("套餐状态更新成功");
+    }
 }

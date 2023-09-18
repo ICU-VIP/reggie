@@ -11,6 +11,7 @@ import com.example.reggie.mapper.SetmealMapper;
 import com.example.reggie.service.SetmealDishService;
 import com.example.reggie.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,14 +74,57 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         lambdaQueryWrapper.in(Setmeal::getId, ids);
         lambdaQueryWrapper.eq(Setmeal::getStatus, 1);
 
-        if(this.count(lambdaQueryWrapper) > 0){
-            throw new CustomException("该套餐下有菜品，请先删除菜品");
+        if(setmealMapper.selectCount(lambdaQueryWrapper) > 0){
+            throw new CustomException("存在正在售卖的套餐，无法删除");
         }
-        this.removeByIds(ids);
+        //this.removeByIds(ids);
+        setmealMapper.deleteBatchIds(ids);
 
         LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
         lambdaQueryWrapper1.in(SetmealDish::getSetmealId, ids);
         setmealDishService.remove(lambdaQueryWrapper1);
     }
 
+
+    @Override
+    public SetmealDto getSetmealDtoById(Long id) {
+        Setmeal setmeal = setmealMapper.selectById(id);
+        SetmealDto setmealDto = new SetmealDto();
+        BeanUtils.copyProperties(setmeal, setmealDto);
+        LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SetmealDish::getSetmealId, id);
+        setmealDto.setSetmealDishes(setmealDishService.list(lambdaQueryWrapper));
+        return setmealDto;
+    }
+
+    @Override
+    @Transactional
+    public void updateSetmealDto(SetmealDto setmealDto) {
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDto, setmeal);
+        setmealMapper.updateById(setmeal);
+
+        LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SetmealDish::getSetmealId, setmealDto.getId());
+        setmealDishService.remove(lambdaQueryWrapper);
+
+        for(SetmealDish setmealDish : setmealDto.getSetmealDishes()){
+            setmealDish.setSetmealId(setmealDto.getId());
+        }
+        setmealDishService.saveBatch(setmealDto.getSetmealDishes());
+
+
+    }
+
+    @Override
+    @Transactional
+    public void updateSetmealStatus(Integer code, List<Long> ids) {
+        List<Setmeal> setmealList = setmealMapper.selectBatchIds(ids);
+
+        for(Setmeal setmeal : setmealList){
+            setmeal.setStatus(code);
+            setmealMapper.updateById(setmeal);
+        }
+
+    }
 }

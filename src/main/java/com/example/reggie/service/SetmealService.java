@@ -13,4 +13,10 @@ public interface SetmealService extends IService<Setmeal> {
     Page<SetmealDto> setmealDtoPage(Integer page,  Integer pageSize, String name);
 
     void removeWithDish(List<Long> ids);
+
+    SetmealDto getSetmealDtoById(Long id);
+
+    void updateSetmealDto(SetmealDto setmealDto);
+
+    void updateSetmealStatus(Integer code, List<Long> ids);
 }
