@@ -4,12 +4,10 @@ import com.example.reggie.common.BaseContext;
 import com.example.reggie.common.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.*;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 
@@ -92,7 +90,7 @@ public class LoginCheckFilter implements Filter {
         
         //5、如果未登录则返回未登录结果，通过输出流方式向客户端页面响应数据
         response.getWriter().write(objectMapper.writeValueAsString(R.error("NOTLOGIN")));
-        return;
+        //return;
 
     }
 

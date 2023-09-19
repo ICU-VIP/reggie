@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
+
 
 @RestController
 @Slf4j
@@ -99,7 +99,7 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+    public R<String> update(@RequestBody Employee employee) {
         log.info(employee.toString());
 
 //        Long empId = (Long) request.getSession().getAttribute("employee");

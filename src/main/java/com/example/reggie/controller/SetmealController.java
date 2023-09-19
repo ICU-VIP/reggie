@@ -72,14 +72,14 @@ public class SetmealController {
     @PutMapping
     public R<String> update(@RequestBody SetmealDto setmealDto) {
         log.info("setmealDto:{}", setmealDto);
-        setmealService.updateSetmealDto(setmealDto);;
+        setmealService.updateSetmealDto(setmealDto);
         return R.success("套餐数据更新成功");
     }
 
     @PostMapping("/status/{code}")
     public R<String> updateStatus(@PathVariable Integer code, @RequestParam List<Long> ids) {
         log.info("code:{}", code);
-        setmealService.updateSetmealStatus(code, ids);;
+        setmealService.updateSetmealStatus(code, ids);
         return R.success("套餐状态更新成功");
     }
 }
