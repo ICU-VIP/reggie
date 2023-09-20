@@ -1,9 +1,11 @@
 package com.example.reggie.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.reggie.common.R;
 
+import com.example.reggie.entity.Setmeal;
 import com.example.reggie.entity.SetmealDto;
 import com.example.reggie.service.SetmealService;
 import lombok.extern.slf4j.Slf4j;
@@ -81,5 +83,21 @@ public class SetmealController {
         log.info("code:{}", code);
         setmealService.updateSetmealStatus(code, ids);
         return R.success("套餐状态更新成功");
+    }
+
+    /**
+     * 根据条件查询套餐数据
+     * @param setmeal
+     * @return
+     */
+    @GetMapping("/list")
+    public R<List<Setmeal>> list(Setmeal setmeal){
+        LambdaQueryWrapper<Setmeal> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(setmeal.getCategoryId() != null,Setmeal::getCategoryId,setmeal.getCategoryId());
+        queryWrapper.eq(setmeal.getStatus() != null,Setmeal::getStatus,setmeal.getStatus());
+        queryWrapper.orderByDesc(Setmeal::getUpdateTime);
+
+        List<Setmeal> list = setmealService.list(queryWrapper);
+        return R.success(list);
     }
 }

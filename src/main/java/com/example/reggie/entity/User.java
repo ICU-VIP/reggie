@@ -1,6 +1,8 @@
 package com.example.reggie.entity;
 
 import lombok.Data;
+
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 @Data
 public class User implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     private Long id;
