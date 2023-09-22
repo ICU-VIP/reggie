@@ -91,16 +91,32 @@ public class AddressBookController {
      * 查询指定用户的全部地址
      */
     @GetMapping("/list")
-    public R<List<AddressBook>> list(AddressBook addressBook) {
-        addressBook.setUserId(BaseContext.getUserId());
-        log.info("addressBook:{}", addressBook);
+    public R<List<AddressBook>> list() {
+        Long userId = (BaseContext.getUserId());
+        log.info("addressBook: userId = {}", userId);
 
         //条件构造器
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(null != addressBook.getUserId(), AddressBook::getUserId, addressBook.getUserId());
+        queryWrapper.eq(null != userId, AddressBook::getUserId, userId);
         queryWrapper.orderByDesc(AddressBook::getUpdateTime);
 
         //SQL:select * from address_book where user_id = ? order by update_time desc
         return R.success(addressBookService.list(queryWrapper));
     }
+
+    @PutMapping
+    public R<String> update(@RequestBody AddressBook addressBook) {
+        addressBookService.updateById(addressBook);
+        return R.success("修改成功");
+    }
+
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids) {
+        LambdaUpdateWrapper<AddressBook> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.in(AddressBook::getId, ids);
+
+        addressBookService.remove(updateWrapper);
+        return R.success("删除成功");
+    }
+
 }

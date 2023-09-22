@@ -6,6 +6,7 @@ import com.example.reggie.common.R;
 import com.example.reggie.common.ValidateCodeUtils;
 import com.example.reggie.entity.User;
 import com.example.reggie.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,5 +94,12 @@ public class UserController {
             return R.success(user);
         }
         return R.error("登录失败");
+    }
+
+    @PostMapping("/logout")
+    public R<String> logout(HttpServletRequest request) {
+        //清理Session中保存的当前登录用户的id
+        request.getSession().removeAttribute("user");
+        return R.success("退出成功");
     }
 }

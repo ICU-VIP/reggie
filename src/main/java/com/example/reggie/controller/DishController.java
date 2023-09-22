@@ -171,5 +171,18 @@ public class DishController {
         return R.success(dishDtoList);
     }
 
+    @PostMapping("/status/{status}")
+    public R<String> updateStatus(@PathVariable Integer status, @RequestParam List<Long> ids) {
+       dishService.updateStatus(status, ids);
+
+
+        return R.success("修改成功");
+    }
+
+    @DeleteMapping
+    public R<String> delete(@RequestParam List<Long> ids){
+        dishService.removeWithFlavor(ids);
+        return R.success("删除成功");
+    }
 
 }

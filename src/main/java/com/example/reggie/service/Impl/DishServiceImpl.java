@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.reggie.entity.Dish;
 import com.example.reggie.entity.DishDto;
 import com.example.reggie.entity.DishFlavor;
+import com.example.reggie.exception.CustomException;
 import com.example.reggie.mapper.DishMapper;
 import com.example.reggie.service.DishFlavorService;
 import com.example.reggie.service.DishService;
@@ -24,6 +25,13 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
     @Autowired
     public void setDishFlavorService(DishFlavorService dishFlavorService) {
         this.dishFlavorService = dishFlavorService;
+    }
+
+    DishMapper dishMapper;
+
+    @Autowired
+    public void setDishMapper(DishMapper dishMapper) {
+        this.dishMapper = dishMapper;
     }
 
     @Override
@@ -80,5 +88,32 @@ public class DishServiceImpl extends ServiceImpl<DishMapper, Dish> implements Di
         }).collect(Collectors.toList());
 
         dishFlavorService.saveBatch(flavors);
+    }
+
+    @Override
+    @Transactional
+    public void updateStatus(Integer status, List<Long> ids) {
+        List<Dish> list = dishMapper.selectBatchIds(ids);
+        for(Dish item : list){
+            item.setStatus(status);
+            dishMapper.updateById(item);
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public void removeWithFlavor(List<Long> ids) {
+        LambdaQueryWrapper<Dish> dishLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        dishLambdaQueryWrapper.in(Dish::getId, ids)
+                .eq(Dish::getStatus, 1);
+        if(dishMapper.selectCount(dishLambdaQueryWrapper) > 0){
+            throw new CustomException("存在菜品正在售卖，不能删除");
+        }
+
+        LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.in(DishFlavor::getDishId, ids);
+        dishFlavorService.remove(lambdaQueryWrapper);
+        dishMapper.deleteBatchIds(ids);
     }
 }
