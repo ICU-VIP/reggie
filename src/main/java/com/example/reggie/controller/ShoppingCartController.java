@@ -32,6 +32,7 @@ public class ShoppingCartController {
      * @return
      */
 
+    @PostMapping("/add")
     public R<ShoppingCart> add(@RequestBody ShoppingCart shoppingCart){
         log.info("购物车数据:{}",shoppingCart);
 
