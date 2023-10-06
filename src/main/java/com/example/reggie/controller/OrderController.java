@@ -6,6 +6,7 @@ import com.example.reggie.common.BaseContext;
 import com.example.reggie.common.R;
 import com.example.reggie.entity.Orders;
 import com.example.reggie.service.OrderService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -51,4 +52,12 @@ public class OrderController {
         orderService.page(ordersPage,  lambdaQueryWrapper);
         return R.success(ordersPage);
     }
+
+    @PutMapping
+    public R<String> update(Long id, Integer status) {
+        log.info("id:{}, status:{}", id, status);
+        //orderService.updateById(orders);
+        return R.success("修改成功");
+    }
+
 }

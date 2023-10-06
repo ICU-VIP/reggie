@@ -5,8 +5,10 @@ import com.example.reggie.common.BaseContext;
 import com.example.reggie.common.R;
 import com.example.reggie.entity.ShoppingCart;
 import com.example.reggie.service.ShoppingCartService;
+import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -29,7 +31,7 @@ public class ShoppingCartController {
      * @param shoppingCart
      * @return
      */
-    @PostMapping("/add")
+
     public R<ShoppingCart> add(@RequestBody ShoppingCart shoppingCart){
         log.info("购物车数据:{}",shoppingCart);
 

@@ -3,7 +3,7 @@ const getOrderDetailPage = (params) => {
   return $axios({
     url: '/order/page',
     method: 'get',
-    params
+    params:{...params}
   })
 }
 
@@ -20,6 +20,6 @@ const editOrderDetail = (params) => {
   return $axios({
     url: '/order',
     method: 'put',
-    data: { ...params }
+    params: {id:params.id, status: params.status}
   })
 }
